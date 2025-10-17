@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <style>
+        /* ========================================
+           CUSTOMIZATION SECTION - Edit these values
+           ======================================== */
+        
+        :root {
+            /* Background Colors */
+            --body-bg-color: #FFF5F0;
+            --nav-bg-color: #333;
+            --hero-bg-gradient-start: #667eea;
+            --hero-bg-gradient-end: #764ba2;
+            --content-bg-color: #FFF5F0;
+            --card-bg-color: #f9f9f9;
+            --gallery-item-bg: #f0f0f0;
+            
+            /* Hero Image Settings */
+            --hero-image-url: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&h=900&fit=crop');
+            --hero-overlay-opacity: 0.5; /* 0 = transparent, 1 = solid black */
+            --hero-height: 600px;
+            
+            /* Logo Settings */
+            --logo-url: url('https://via.placeholder.com/150x50/667eea/ffffff?text=Your+Logo');
+            --logo-height: 50px;
+            
+            /* Text Colors */
+            --primary-text-color: #2D5F4D;
+            --nav-text-color: #fff;
+            --hero-text-color: #fff;
+            --heading-color: #2D5F4D;
+            --link-hover-color: #4CAF50;
+            
+            /* Fonts */
+            --primary-font: 'ITC Avant Garde Gothic', 'Century Gothic', 'Futura', sans-serif;
+            --heading-font: 'ITC Avant Garde Gothic', 'Century Gothic', 'Futura', sans-serif;
+            
+            /* Image Sizes */
+            --gallery-image-width: 250px;
+            --gallery-image-height: 200px;
+            
+            /* Accent Colors */
+            --button-bg-color: #667eea;
+            --button-hover-color: #5568d3;
+            --accent-color: #667eea;
+        }
+        
+        /* ========================================
+           END CUSTOMIZATION SECTION
+           ======================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--primary-font);
+            line-height: 1.6;
+            background-color: var(--body-bg-color);
+            color: var(--primary-text-color);
+        }
+
+        nav {
+            background: var(--nav-bg-color);
+            color: var(--nav-text-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: var(--logo-height);
+            width: auto;
+            cursor: pointer;
+            content: var(--logo-url);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        nav li {
+            position: relative;
+        }
+
+        nav a {
+            color: var(--nav-text-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            padding: 10px 15px;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            color: var(--link-hover-color);
+        }
+
+        nav a.active {
+            color: var(--link-hover-color);
+            font-weight: bold;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #444;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border-radius: 4px;
+            margin-top: 0;
+            padding: 8px 0;
+            top: 100%;
+            left: 0;
+        }
+
+        .dropdown-content::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: transparent;
+        }
+
+        .dropdown-content a {
+            color: var(--nav-text-color);
+            padding: 14px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background 0.3s;
+            font-size: 1rem;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #555;
+            color: var(--link-hover-color);
+        }
+
+        .dropdown:hover .dropdown-content,
+        .dropdown-content:hover {
+            display: block;
+        }
+
+        .dropdown > a {
+            padding: 10px 15px;
+            display: inline-block;
+        }
+
+        .dropdown > a::after {
+            content: ' ▼';
+            font-size: 0.7em;
+            margin-left: 4px;
+        }
+
+        .hero {
+            position: relative;
+            background-image: var(--hero-image-url);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: var(--hero-text-color);
+            height: var(--hero-height);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, var(--hero-overlay-opacity));
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-family: var(--heading-font);
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            background-color: var(--content-bg-color);
+        }
+
+        .content h2 {
+            font-family: var(--heading-font);
+            color: var(--heading-color);
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(var(--gallery-image-width), 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* Surfboard Gallery Sections */
+        .gallery-section {
+            margin-bottom: 60px;
+        }
+
+        .gallery-section h3 {
+            font-family: var(--heading-font);
+            color: var(--heading-color);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent-color);
+        }
+
+        .collage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .collage-item {
+            background: var(--gallery-item-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            padding-bottom: 75%; /* Aspect ratio */
+        }
+
+        .collage-item-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #666;
+            padding: 10px;
+        }
+
+        .collage-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .collage-item:nth-child(3n) {
+            grid-column: span 2;
+        }
+
+        .collage-item:nth-child(7n) {
+            grid-row: span 2;
+        }
+
+        .collage-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .gallery-item {
+            background: var(--gallery-item-bg);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            height: var(--gallery-image-height);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #666;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .gallery-item img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        /* Modal/Lightbox for enlarged images */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            animation: zoomIn 0.3s;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #bbb;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.5); }
+            to { transform: scale(1); }
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--primary-text-color);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: var(--primary-font);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button {
+            background: var(--button-bg-color);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: var(--primary-font);
+        }
+
+        button:hover {
+            background: var(--button-hover-color);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            background: var(--card-bg-color);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            font-family: var(--heading-font);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="" alt="Logo">
+        </div>
+        <ul>
+            <li><a href="#home" class="nav-link active">Home</a></li>
+            <li class="dropdown">
+                <a href="#gallery" class="nav-link">Gallery</a>
+                <div class="dropdown-content">
+                    <a href="#custom-surfboards" class="nav-link">Custom Surf Boards</a>
+                    <a href="#in-action" class="nav-link">In Action</a>
+                </div>
+            </li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div id="home" class="section active">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Welcome to My Website</h1>
+                <p>Your journey starts here</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="gallery" class="section">
+        <div class="content">
+            <h2>Gallery</h2>
+            <p>Browse through our collection (Click on images to enlarge)</p>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-image="1">Image 1</div>
+                <div class="gallery-item" data-image="2">Image 2</div>
+                <div class="gallery-item" data-image="3">Image 3</div>
+                <div class="gallery-item" data-image="4">Image 4</div>
+                <div class="gallery-item" data-image="5">Image 5</div>
+                <div class="gallery-item" data-image="6">Image 6</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="custom-surfboards" class="section">
+        <div class="content">
+            <h2>Custom Surf Boards</h2>
+            <p>Handcrafted boards designed for performance and style</p>
+            
+            <div class="gallery-section">
+                <h3>Longboards</h3>
+                <div class="collage-grid">
+                    <div class="collage-item" data-image="lb1"><div class="collage-item-content">Longboard 1</div></div>
+                    <div class="collage-item" data-image="lb2"><div class="collage-item-content">Longboard 2</div></div>
+                    <div class="collage-item" data-image="lb3"><div class="collage-item-content">Longboard 3</div></div>
+                    <div class="collage-item" data-image="lb4"><div class="collage-item-content">Longboard 4</div></div>
+                    <div class="collage-item" data-image="lb5"><div class="collage-item-content">Longboard 5</div></div>
+                    <div class="collage-item" data-image="lb6"><div class="collage-item-content">Longboard 6</div></div>
+                    <div class="collage-item" data-image="lb7"><div class="collage-item-content">Longboard 7</div></div>
+                    <div class="collage-item" data-image="lb8"><div class="collage-item-content">Longboard 8</div></div>
+                    <div class="collage-item" data-image="lb9"><div class="collage-item-content">Longboard 9</div></div>
+                    <div class="collage-item" data-image="lb10"><div class="collage-item-content">Longboard 10</div></div>
+                </div>
+            </div>
+
+            <div class="gallery-section">
+                <h3>Shortboards</h3>
+                <div class="collage-grid">
+                    <div class="collage-item" data-image="sb1"><div class="collage-item-content">Shortboard 1</div></div>
+                    <div class="collage-item" data-image="sb2"><div class="collage-item-content">Shortboard 2</div></div>
+                    <div class="collage-item" data-image="sb3"><div class="collage-item-content">Shortboard 3</div></div>
+                    <div class="collage-item" data-image="sb4"><div class="collage-item-content">Shortboard 4</div></div>
+                    <div class="collage-item" data-image="sb5"><div class="collage-item-content">Shortboard 5</div></div>
+                    <div class="collage-item" data-image="sb6"><div class="collage-item-content">Shortboard 6</div></div>
+                    <div class="collage-item" data-image="sb7"><div class="collage-item-content">Shortboard 7</div></div>
+                    <div class="collage-item" data-image="sb8"><div class="collage-item-content">Shortboard 8</div></div>
+                    <div class="collage-item" data-image="sb9"><div class="collage-item-content">Shortboard 9</div></div>
+                    <div class="collage-item" data-image="sb10"><div class="collage-item-content">Shortboard 10</div></div>
+                </div>
+            </div>
+
+            <div class="gallery-section">
+                <h3>Fish & Funboards</h3>
+                <div class="collage-grid">
+                    <div class="collage-item" data-image="ff1"><div class="collage-item-content">Fish 1</div></div>
+                    <div class="collage-item" data-image="ff2"><div class="collage-item-content">Fish 2</div></div>
+                    <div class="collage-item" data-image="ff3"><div class="collage-item-content">Funboard 1</div></div>
+                    <div class="collage-item" data-image="ff4"><div class="collage-item-content">Funboard 2</div></div>
+                    <div class="collage-item" data-image="ff5"><div class="collage-item-content">Fish 3</div></div>
+                    <div class="collage-item" data-image="ff6"><div class="collage-item-content">Fish 4</div></div>
+                    <div class="collage-item" data-image="ff7"><div class="collage-item-content">Funboard 3</div></div>
+                    <div class="collage-item" data-image="ff8"><div class="collage-item-content">Funboard 4</div></div>
+                    <div class="collage-item" data-image="ff9"><div class="collage-item-content">Fish 5</div></div>
+                    <div class="collage-item" data-image="ff10"><div class="collage-item-content">Funboard 5</div></div>
+                </div>
+            </div>
+
+            <div class="gallery-section">
+                <h3>Performance & Pro Models</h3>
+                <div class="collage-grid">
+                    <div class="collage-item" data-image="pm1"><div class="collage-item-content">Pro Model 1</div></div>
+                    <div class="collage-item" data-image="pm2"><div class="collage-item-content">Performance 1</div></div>
+                    <div class="collage-item" data-image="pm3"><div class="collage-item-content">Pro Model 2</div></div>
+                    <div class="collage-item" data-image="pm4"><div class="collage-item-content">Performance 2</div></div>
+                    <div class="collage-item" data-image="pm5"><div class="collage-item-content">Pro Model 3</div></div>
+                    <div class="collage-item" data-image="pm6"><div class="collage-item-content">Performance 3</div></div>
+                    <div class="collage-item" data-image="pm7"><div class="collage-item-content">Pro Model 4</div></div>
+                    <div class="collage-item" data-image="pm8"><div class="collage-item-content">Performance 4</div></div>
+                    <div class="collage-item" data-image="pm9"><div class="collage-item-content">Pro Model 5</div></div>
+                    <div class="collage-item" data-image="pm10"><div class="collage-item-content">Performance 5</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="in-action" class="section">
+        <div class="content">
+            <h2>In Action</h2>
+            <p>See our boards in the waves</p>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-image="a1">Action 1</div>
+                <div class="gallery-item" data-image="a2">Action 2</div>
+                <div class="gallery-item" data-image="a3">Action 3</div>
+                <div class="gallery-item" data-image="a4">Action 4</div>
+                <div class="gallery-item" data-image="a5">Action 5</div>
+                <div class="gallery-item" data-image="a6">Action 6</div>
+                <div class="gallery-item" data-image="a7">Action 7</div>
+                <div class="gallery-item" data-image="a8">Action 8</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="contact" class="section">
+        <div class="content">
+            <h2>Contact Us</h2>
+            <p>Get in touch with us</p>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" required></textarea>
+                </div>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for enlarged images -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="Enlarged view">
+        </div>
+    </div>
+
+    <script>
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.section');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const collageItems = document.querySelectorAll('.collage-item');
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeModal = document.querySelector('.close-modal');
+        const logo = document.querySelector('.logo img');
+
+        // Logo click - return to home
+        logo.addEventListener('click', () => {
+            navLinks.forEach(l => l.classList.remove('active'));
+            navLinks[0].classList.add('active'); // Home link
+            sections.forEach(section => {
+                section.classList.remove('active');
+                if (section.id === 'home') {
+                    section.classList.add('active');
+                }
+            });
+        });
+
+        // Navigation functionality
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                const targetId = link.getAttribute('href').substring(1);
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === targetId) {
+                        section.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        // Gallery image enlargement
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                modal.classList.add('active');
+                const imageNum = item.getAttribute('data-image');
+                modalImage.alt = `Enlarged view of Image ${imageNum}`;
+            });
+        });
+
+        // Collage image enlargement
+        collageItems.forEach(item => {
+            item.addEventListener('click', () => {
+                modal.classList.add('active');
+                const imageNum = item.getAttribute('data-image');
+                modalImage.alt = `Enlarged view of ${imageNum}`;
+            });
+        });
+
+        // Close modal
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            }
+        });
+
+        // Contact form
+        document.querySelector('.contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! (This is a demo - no data is actually sent)');
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>
